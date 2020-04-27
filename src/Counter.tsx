@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+
+import { useDidMount } from './hooks/useDidMount';
+//import { useOutsideClick } from './hooks/useOutsideClick'
 
 type CounterProps = {
   currentValue: number;
@@ -18,6 +21,14 @@ type CounterProps = {
 
 const Counter: React.FC<CounterProps> = ({ currentValue, onChange }) => {
   const [data, setData] = useState([]);
+  const [isMounted] = useDidMount();
+  const wrapperRef = useRef(); // wrapperRef.current.
+
+  const closeModal = () => {
+    // on outside click
+  }
+
+  //useOutsideClick(wrapperRef.current, closeModal);
 
   /* useEffect(() => {
     // componentDidMount
@@ -36,15 +47,35 @@ const Counter: React.FC<CounterProps> = ({ currentValue, onChange }) => {
   //   // componentDidUpdate for currentValue
   // }, currentValue);
 
-  
+  useEffect(() => {
+    // Update the document title using the browser API
+    if (!isMounted) return;
+    console.log(`You clicked ${currentValue} times`);
+  }, [currentValue]);
+
+  useEffect(() => {
+    // ..
+    // const initData = async () = {
+    //   const data = await getDataFromHtttp();
+    //   return [...data, 1]
+    // }
+
+    // initData();
+
+
+
+    return () => { }
+  }, [])
 
   return (
-  <div className='Counter'>
-    <button onClick={(): void => onChange(currentValue - 1)}>-1</button>
-    <p>{currentValue}</p>
-    <button onClick={(): void => onChange(currentValue + 1)}>+1</button>
-  </div>
-);
-  }
+    <div className='Counter' ref={'wrapperRef'}>
+      <button onClick={(): void => onChange(currentValue - 1)}>-1</button>
+      <p>{currentValue}</p>
+      <button onClick={(): void => onChange(currentValue + 1)}>+1</button>
+    </div>
+  );
+}
+
+Counter.displayName = 'Counter'
 
 export default Counter;
