@@ -4,14 +4,18 @@ import './App.css';
 
 //import Wrapper from './Wrapper';
 //import Wrapper from './WrapperClass/Wrapper';
-import {Loginform } from './Loginform/Loginform';
+import { LocationForm }  from './components/location-form/location-form';
+import LoginForm  from './components/login-form';
 
 
 function App() {
   return (
     <div className="App">
       {/* <Wrapper initialValue={19} /> */}
-      <Loginform value=''/>
+      <LocationForm />
+      <br/>
+      <br/>
+      <LoginForm />
     </div>
   );
 }
