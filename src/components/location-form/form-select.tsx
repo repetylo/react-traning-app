@@ -1,9 +1,17 @@
 import React, { useState, useEffect, ChangeEvent, } from 'react';
 
+interface ITags {
+  name: string;
+}
 
-interface BaseEntity {
+interface IBaseEntity {
   id: number;
+  tags: ITags;
+}
 
+interface IResultEllements {
+  id: number, 
+  name: string
 }
 
 type Props = {
@@ -12,14 +20,6 @@ type Props = {
   onSelect: any
 }
 
-// const [regions, setRegions] = useState([]);
-
-// ['region', 'city' , 'district', 'street'] => 
-// 3 select
-
-// map
-
-
 export const Select: React.FC<Props> = ({ trigger, itemsLink, onSelect }) => {
   
   const [error, setError] = useState(null);
@@ -27,41 +27,57 @@ export const Select: React.FC<Props> = ({ trigger, itemsLink, onSelect }) => {
   const [items, setItems] = useState([]);
   
   useEffect(() => {
-    if (trigger) setItems([]);
+    if (trigger) {
+      setError(null);
+      console.log(trigger);
 
-    const initItems = async () => {
-      const getItems =
-        fetch(itemsLink)//`https://jsonplaceholder.typicode.com/users`
+      const initItems = async () => {
+      
+        fetch(itemsLink)//`https://jsonplaceholder.typicode.com/users`)
           .then(response => {
             return response.json();
             })
           .then(
             (result) => {
               setIsLoaded(true);
-              localStorage.setItem('myItems', JSON.stringify(result.elements));
-              setItems(result.elements);
+
+              let selectItems = result.elements.reduce((acc: IResultEllements[], { id, tags }: IBaseEntity )=>{
+                return acc.concat([{['name']: tags.name, ['id']: id}])
+              }, [])
+
+              selectItems.sort((a: IResultEllements,b: IResultEllements)=>a.name.localeCompare(b.name, 'uk'))
+
+              localStorage.setItem(itemsLink, JSON.stringify(selectItems));
+              setItems(selectItems);
+              console.log('getItems1');
+
             },
 
             (error) => {
               setIsLoaded(true);
               setError(error);
             }
-          )
+        )
       }
 
-    onSelect('');
+      if(localStorage.getItem(itemsLink)) {
+        setItems(JSON.parse(localStorage.getItem(itemsLink)||''));
+        setIsLoaded(true);
+      }else{
+        initItems();
+      }
+    }
+  }, [trigger,itemsLink]);
 
-    initItems();
+  const renderOptions = (items: IResultEllements[]) => {
+    const validItems = items.filter(item=>item.name);
+    return validItems.map((p)=><option key={p.id} value={p.id}>{p.name}</option>)}
 
-  }, [trigger]);
-
-  const renderOptions = (items: BaseEntity[]) =>
-  items.map((p)=><option key={p.id} value={p.id}>{p.id}</option>);
-
-/* const regionsSelectList = renderOptions(regions);
- const citiesSelectList = renderOptions(cities); // []
-  const streetsSelectList = renderOptions(streets); // []
-*/
+  const handleSelect = (event:ChangeEvent<HTMLSelectElement>)=>{
+    let a = event.target.value;
+    console.log(a);
+    onSelect(event.target.value) 
+  }
 
   if (error) {
     return <div>Error: </div>;
@@ -69,8 +85,13 @@ export const Select: React.FC<Props> = ({ trigger, itemsLink, onSelect }) => {
     return <div>Loading...</div>;
   } else {
     return (
-      <select name="state" id="state" disabled={!trigger}>
-        {renderOptions}
+      <select 
+        name="state" 
+        id="state" 
+        disabled={!trigger}
+        onChange={handleSelect}>
+          {<option value=""></option>}
+          {renderOptions(items)}
       </select>
     );
   }

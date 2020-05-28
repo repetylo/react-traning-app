@@ -1,0 +1,168 @@
+.userCardWrapper {
+  width: 284px;
+  margin: 3px auto 0;
+  box-shadow: 0 0 15px #b4b4b4;
+  background-color: #fefefe;
+  position: relative;
+  height: 594px;
+  color: #464646;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.userCardInfo {
+  position: relative;
+  top: 4.54rem;
+}
+
+.userCardCover {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  opacity: 0.8;
+}
+
+.userCardAvatar {
+  width: 5.75rem;
+  border-radius: 50%;
+  border: 0.15rem solid #fefefe;
+}
+
+.userCardName {
+  font-weight: 600;
+  position: relative;
+  font-size: 0.75rem;
+  margin: 0.5rem 0 0.3rem;
+  letter-spacing: 0.06rem;
+}
+
+.userCardContacts {
+  color: #b0b0b0;
+  letter-spacing: -0.01rem;
+  /* font-size: 13px;
+  margin-right: 3px; */
+}
+
+.userCardContacts span {
+  margin: 0 0.43rem;
+}
+
+.userCardContacts .userCardUsername, .userCardContacts .userCardSite {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.userCardSeparator{
+  font-size: 0.55rem;
+  line-height: 1.5rem;
+  vertical-align: top;
+}
+
+.userCardJob {
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-top: 0.27rem;
+  letter-spacing: 0.04rem;
+}
+
+.userCardLocation {
+  font-size: 0.56rem;
+  margin-top: 0.23rem;
+  letter-spacing: 0.06rem;
+  color: #b0b0b0;
+  font-weight: 600;
+}
+
+.userCardActivity {
+  border-top: 0.09rem solid #dcdcdc;
+  border-bottom: 0.09rem solid #dcdcdc;
+  margin-top: 1.55rem;
+  background-color: #e8f4f8;
+}
+
+.userCardActivity .activityItem {
+  display: inline-block;
+  padding: 0.4rem 1.87rem;
+  font-weight: 600;
+}
+
+.userCardActivity .activityItem .activityCount {
+  font-size: 0.8rem;
+  letter-spacing: -0.02rem;
+}
+
+.userCardActivity .activityItem .activityName {
+  font-size: 0.57rem;
+  margin-top: 0.05rem;
+  color: #b0b0b0;
+}
+
+.userCardButtons {
+  text-align: left;
+  position: relative;
+  width: 110%;
+}
+
+.userCardButtons button {
+  display: inline-block;
+  border: none;
+  border-bottom: 0.09rem solid #dcdcdc;
+  border-top: 0.09rem solid #dcdcdc;
+  padding: 0.75rem 2.77rem 0.85rem 3.72rem;
+  font-weight: 600;
+  margin: 0;
+  text-decoration: none;
+  background: #fefefe;
+  background-repeat: no-repeat;
+  background-position: 2.5rem 0.6rem;
+  color: #3f80b3;
+  cursor: pointer;
+  font-size: 0.66rem;
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 0.015rem;
+  line-height: 0.66rem;
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.userCardButtons .Follow {
+  border-right: 0.09rem solid #dcdcdc
+}
+
+.userCardButtons .Message {
+  padding-right: 2.55rem;
+}
+
+.userCardMessage {
+  margin: 0.75rem 0;
+}
+
+.userCardMessage p {
+  margin: 0;
+  font-size: 0.65rem;
+  padding: 0.5rem 1.48rem;
+  text-align: justify;
+  line-height: 1.4em;
+  letter-spacing: 0.015rem;
+  font-weight: 600;
+}
+
+.userCardSkills {
+  margin: 0.98rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04rem;
+}
+
+.userCardSkills p {
+  color: #878686;
+  margin: 0.4rem 0;
+}
+.userCardSkills p span {
+  font-size: 0.55rem;
+  font-weight: 500;
+  line-height: 1.2rem;
+  letter-spacing: 0.015rem;
+}
+

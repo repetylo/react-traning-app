@@ -4,44 +4,101 @@ import { Select } from './form-select';
 
 import { useFormState } from '../../hooks/useFormState';
 
-export const LocationForm: React.FC = ({ }) => {
-  
-  const [state, setState] = useState({});
-/*
-  const [region, setRegion] = useState();
-  const [city, setCity] = useState();
-  const [street, setstreet] = useState();
-*/
+type Aa = 'city' | 'region' | 'country';
+
+interface IItem {
+  value: string;
+  url: any;
+  label: string;
+}
+
+type Props = {
+  hierarchy: IItem[]
+}
+
+// city, disttrict, street
+
+const state = {
+  city: {
+    id: '',
+    trigger: false
+  },
+  district: {
+    id: '',
+    trigger: false
+  },
+  street: {
+    id: '',
+    trigger: false
+  }
+}
+
+export const LocationForm: React.FC<Props> = ({ hierarchy }) => { // [{ value, url, label }]
+  console.log('Rerender <LocationForm />');
+
+// const [state, setState] = useState(hierarchy);
+
+  const [state, setState] = useState(
+    hierarchy.reduce((acc: {[prop: string]:{id:string,trigger:boolean}}, { value }, i)=> {
+    return {
+      ...acc,
+      [value]: {
+        id:'',
+        trigger:false
+      },
+    }
+    
+    // acc[item.value] = ''
+    // return acc;
+  }, {}));
+
+  // pop, push
+  // reverse
+
+  // .map,  [.filter, / .every, .some]
+  // [join] => 'join'
+  // [reduce, reduceRight] => {}   arr.reduce((acc, item, idx, arr) => {  asasa; return acc;}, {});
+
   const { handleSubmit } = useFormState();
 
-  const handleChange = (event: ChangeEvent<HTMLSelectElement>): void => {
-    const { value, name } = event.target;
-  };
+  // const handleChange = (value: string): void => {
+  //   setState({ ...state, [value]: value })
+  // };
+
+  //const addTrigger = (initialValue: keyof typeof state): string => state[initialValue];
+
+  const renderOptions = hierarchy.map((select,index,array) =>
+      <label>
+        {select.label}
+        <Select
+          trigger={index === 0 ? true : state[select.value].trigger}
+          itemsLink={select.url(index !== 0 ? state[array[index-1].value].id : '')}
+          onSelect={(value:string) => {
+            if(array.length!=index+1) {
+              const l= { id: value, trigger: true }
+              const k= { id:'', trigger: true }
+              setState({ ...state, [select.value]: l, [array[index+1].value]: k});
+            }
+          }}
+        />
+      </label>
+    )
 
   return (
 
     <form onSubmit={handleSubmit}>
-      <label>
-        Оберіть область:
-        <Select
-          trigger={true}
-          itemsLink={'http://overpass-api.de/api/interpreter?data=[out:json];area(3600060199);(rel[admin_level=4][koatuu][place!=%22city%22][!%22official_status%22](area););out;'} 
-          onSelect={(value:string) => setState({ ...state, 'region': value })}
-        />
-      </label>
-      <label>
-        Оберіть місто:
-        
-      </label>
-      <label>
-        Оберіть вулицю:
-        
-      </label>
+      {renderOptions}
       <input type="submit" value="Надіслати" />
     </form>
   );
 };
 
-// http://overpass-api.de/api/interpreter?data=[out:json];area(3600072380);(rel[place~%22city|town%22](area););out;
+// render form with n selects
+// props:
+  // input => hierarchy: [{ value, url, label }]
+  // output => { city: '', district: '', street: '' }
 
-// http://overpass-api.de/api/interpreter?data=[out:json];area(3602032280);(rel[type=%22associatedStreet%22](area););out; 
+
+// next select disable if current is empty
+// on reset select => reset all select after
+// 
